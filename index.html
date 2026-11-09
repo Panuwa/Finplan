@@ -134,6 +134,14 @@ svg{width:100%;height:auto;display:block}
 </section>
 
 <section id="set">
+ <div class="card"><h2>บัญชีและซิงค์ข้อมูล (Firebase)</h2>
+  <p class="note" id="cloudMsg">กำลังตรวจสอบ...</p>
+  <p><b id="cloudUser"></b> <span class="note" id="cloudStatus"></span></p>
+  <div class="actions">
+   <button class="btn" id="btnSignIn" hidden>เข้าสู่ระบบด้วย Google</button>
+   <button class="btn ghost" id="btnSignOut" hidden>ออกจากระบบ</button>
+  </div>
+ </div>
  <div class="card"><h2>จัดการข้อมูล</h2>
   <p class="note">ข้อมูลอยู่ในเบราว์เซอร์เครื่องนี้ ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง ข้อมูลจะหาย แนะนำให้กดสำรองเป็นไฟล์เป็นระยะ</p>
   <div class="actions">
@@ -166,7 +174,7 @@ function empty(){return{sample:false,debts:[],bud:{incomeMain:'',incomeSide:'',i
 var S;
 try{S=JSON.parse(localStorage.getItem(KEY));}catch(e){S=null;}
 if(!S||!S.debts){S=sample();}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(window.App&&window.App.onSaved)window.App.onSaved(S);}
 function num(v){var x=parseFloat(v);return isFinite(x)?x:0;}
 function fmt(x){return Math.round(x).toLocaleString('en-US');}
 var TH=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
@@ -352,8 +360,10 @@ $('imp').onchange=function(e){
 };
 $('sample').onclick=function(){if(confirm('แทนที่ข้อมูลปัจจุบันด้วยข้อมูลตัวอย่าง?')){S=sample();renderAll();}};
 $('clear').onclick=function(){if(confirm('ลบข้อมูลทั้งหมดและเริ่มใหม่? (ควรสำรองข้อมูลก่อน)')){S=empty();renderAll();}};
+window.App={get:function(){return S;},set:function(o){S=o;S.ideas=S.ideas||[];S.log=S.log||[];S.sample=false;renderAll();},onSaved:null};
 renderAll();
 })();
 </script>
+<script type="module" src="cloud.js"></script>
 </body>
 </html>
