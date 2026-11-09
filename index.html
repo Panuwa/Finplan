@@ -2,89 +2,125 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>แผนปลดหนี้และสร้างรายได้</title>
-<meta name="theme-color" content="#1f3864">
+<meta name="theme-color" content="#223743">
 <style>
-:root{--bg:#f4f6fa;--card:#fff;--ink:#1c2230;--mute:#5d6678;--line:#dde2ec;--brand:#1f3864;--accent:#2e75b6;--good:#2f7d3a;--bad:#c0392b;--inp:#fff8e1;--inpink:#0b3dbd}
-@media (prefers-color-scheme:dark){:root{--bg:#10141c;--card:#1a2030;--ink:#e8ecf4;--mute:#9aa4b8;--line:#2b3347;--brand:#8fb4ff;--accent:#6aa7e6;--good:#6fcf7a;--bad:#ff7b6b;--inp:#2a2a1c;--inpink:#9dbcff}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Sarabun","Noto Sans Thai",Tahoma,sans-serif}
-header{background:#1f3864;color:#fff;padding:16px}
-header h1{margin:0;font-size:20px}
-header p{margin:2px 0 0;font-size:13px;opacity:.85}
-nav{display:flex;gap:4px;padding:8px 8px 0;overflow-x:auto;position:sticky;top:0;background:var(--bg);z-index:5;border-bottom:1px solid var(--line)}
-nav button{flex:0 0 auto;border:0;background:none;color:var(--mute);padding:10px 14px;font:inherit;font-weight:600;border-bottom:3px solid transparent;cursor:pointer}
-nav button.on{color:var(--brand);border-bottom-color:var(--brand)}
-main{max-width:980px;margin:0 auto;padding:12px 16px 60px}
+:root{--bg:#101a22;--ink:#eaf2f7;--mute:#9db1bd;--line:rgba(255,255,255,.1);--card:rgba(255,255,255,.065);--cyan:#4fc8ef;--yellow:#f4c430;--green:#5ed98a;--bad:#ff7b6b;--accent:#4fc8ef;--inpbg:rgba(0,0,0,.28);--inpink:#8fdcf7}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{color-scheme:dark}
+body{margin:0;color:var(--ink);background:#101a22 linear-gradient(180deg,#33505e 0,#223743 32%,#101a22 72%) fixed;min-height:100vh;font:15px/1.5 "Sarabun","Noto Sans Thai",Tahoma,sans-serif}
+header{position:sticky;top:0;z-index:6;padding:12px 16px;text-align:center;background:rgba(27,43,54,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:17px;font-weight:600}
+nav{position:fixed;z-index:8;left:0;right:0;bottom:0;display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));background:rgba(20,32,41,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+nav button{flex:1;border:0;background:none;color:#7f93a0;padding:4px 2px;font:inherit;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+nav button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:#fff}
+main{max-width:980px;margin:0 auto;padding:12px 16px 100px}
 section{display:none}section.on{display:block}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
-.card h2{margin:0 0 10px;font-size:16px;color:var(--brand)}
-.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.card h2{margin:0 0 10px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);font-weight:600;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card h2 b{color:var(--yellow);font-size:14px;text-transform:none;letter-spacing:0}
+.bar{border-radius:3px;padding:7px 12px;font-weight:700;font-size:17px;color:#0b2230;margin:6px 0;white-space:nowrap;overflow:hidden;min-width:max-content;max-width:100%}
+.bar.c{background:var(--cyan)}.bar.y{background:var(--yellow)}
+.hero{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin:12px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
 .kpi small{color:var(--mute);display:block;font-size:12px}
-.kpi b{font-size:20px}
-.kpi.big b{font-size:24px;color:var(--brand)}
-label{display:block;font-size:13px;color:var(--mute);margin-bottom:2px}
-input,select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--inp);color:var(--inpink);font:inherit}
-input[type=month],input[type=date]{color:var(--inpink)}
+.kpi b{font-size:22px}
+.kpi.big b{color:var(--cyan);font-size:26px}
+.list .li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line)}
+.list .li:last-child{border:0}.list .li span{color:var(--mute);font-size:14px}.list .li b{font-size:16px}
+.tiles{display:flex;flex-wrap:wrap;gap:6px 4px;justify-content:space-around}
+.tile{width:84px;text-align:center}
+.tile small{display:block;color:var(--ink);font-size:12px;line-height:1.2;margin-top:4px}
+.tile b{font-size:12px}
+.ring{position:relative;width:64px;height:64px;margin:0 auto}
+.ring svg{width:64px;height:64px;display:block}
+.ring span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px}
+.donutwrap{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
+.donutwrap svg{width:200px;height:200px;flex:0 0 auto}
+.legend{flex:1 1 220px;min-width:200px}
+.lg{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:14px}
+.lg i{width:18px;height:18px;border-radius:4px;flex:0 0 auto}
+.lg span{flex:1}.lg em{font-style:normal;color:var(--mute);font-size:12px}
+label{display:block;font-size:12px;color:var(--mute);margin-bottom:2px}
+input,select{width:100%;padding:9px 10px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:var(--inpbg);color:var(--inpink);font:inherit}
+input:focus{outline:2px solid var(--cyan);outline-offset:0}
+input::placeholder{color:#5f7684}
+input[type=date],input[type=month]{color-scheme:dark}
 .row{display:grid;gap:8px;align-items:end;margin-bottom:8px}
 .debt-row{grid-template-columns:2fr 1.3fr .9fr 1.3fr auto}
 .idea-row{grid-template-columns:2fr 1fr 1fr 1fr 1fr auto}
 .log-row{grid-template-columns:2fr 1.2fr 1.2fr auto}
-.fld{display:grid;gap:8px;grid-template-columns:1fr 160px;align-items:center;margin-bottom:8px}
+.fld{display:grid;gap:10px;grid-template-columns:1fr 150px;align-items:center;margin-bottom:8px}
 .fld span{font-size:14px}
 @media (max-width:640px){
- .debt-row,.idea-row,.log-row{grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;padding:8px}
+ .debt-row,.idea-row,.log-row{grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;padding:10px;background:rgba(0,0,0,.12)}
  .debt-row>:first-child,.idea-row>:first-child,.log-row>:first-child{grid-column:1/-1}
- .fld{grid-template-columns:1fr 130px}
+ .fld{grid-template-columns:1fr 150px}
 }
-button.btn{border:1px solid var(--accent);background:var(--accent);color:#fff;padding:8px 14px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}
-button.ghost{background:none;color:var(--accent)}
-button.del{border:0;background:none;color:var(--bad);font-size:18px;cursor:pointer;padding:6px}
+button.btn{border:0;background:var(--cyan);color:#07202d;padding:10px 16px;border-radius:999px;font:inherit;font-weight:700;cursor:pointer}
+button.ghost{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--line)}
+button.del{border:0;background:none;color:var(--bad);font-size:18px;cursor:pointer;padding:8px}
 table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{padding:8px;border-bottom:1px solid var(--line);text-align:right}
+th,td{padding:9px 6px;border-bottom:1px solid var(--line);text-align:right}
 th:first-child,td:first-child{text-align:left}
 th{color:var(--mute);font-weight:600;font-size:12px}
-.warn{background:#fdecea;color:#a1271a;border:1px solid #f5c2bc;border-radius:10px;padding:10px;margin:10px 0;display:none}
-@media (prefers-color-scheme:dark){.warn{background:#3a1c19;color:#ffb3a8;border-color:#6b2f28}}
+tr:last-child td{border:0}
+.warn{background:rgba(255,123,107,.14);color:#ffb3a8;border:1px solid rgba(255,123,107,.4);border-radius:12px;padding:10px;margin:10px 0;display:none}
 .note{font-size:12px;color:var(--mute)}
-.banner{background:#fff4d6;color:#7a5a00;border:1px solid #f0d58a;border-radius:10px;padding:10px;font-size:13px}
-@media (prefers-color-scheme:dark){.banner{background:#3a321a;color:#f3d98b;border-color:#6b5a28}}
-svg{width:100%;height:auto;display:block}
-.good{color:var(--good);font-weight:700}
+.banner{background:rgba(244,196,48,.13);color:#f6d878;border:1px solid rgba(244,196,48,.35);border-radius:12px;padding:10px;font-size:13px;margin-top:12px}
+svg{max-width:100%}
+#chart svg{width:100%;height:auto;display:block}
+.good{color:var(--green)}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+@media (min-width:900px){
+ nav{top:0;bottom:0;right:auto;width:88px;flex-direction:column;justify-content:flex-start;gap:6px;padding:76px 4px 8px;border-top:0;border-right:1px solid var(--line)}
+ nav button{flex:none;padding:12px 2px}
+ header,main{margin-left:88px}
+ main{max-width:1000px;margin-left:calc(88px + max(0px,(100vw - 88px - 1000px)/2))}
+ .hero{grid-template-columns:repeat(4,1fr)}
+}
 </style>
 </head>
 <body>
-<header><h1>แผนปลดหนี้และสร้างรายได้</h1><p>ข้อมูลเก็บในเครื่องของคุณเท่านั้น ไม่ส่งไปที่ไหน</p></header>
+<header><h1 id="pageTitle">สรุป</h1></header>
 <nav id="tabs">
- <button data-t="sum" class="on">สรุป</button>
- <button data-t="debt">หนี้</button>
- <button data-t="bud">งบรายเดือน</button>
- <button data-t="inc">รายได้เสริม</button>
- <button data-t="set">ข้อมูล</button>
+ <button data-t="sum" data-title="สรุป" class="on"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>สรุป</button>
+ <button data-t="debt" data-title="หนี้" ><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg>หนี้</button>
+ <button data-t="bud" data-title="งบรายเดือน"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v8h8"/></svg>งบ</button>
+ <button data-t="inc" data-title="รายได้เสริม"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-7"/></svg>รายได้</button>
+ <button data-t="set" data-title="ข้อมูลและบัญชี"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg>ข้อมูล</button>
 </nav>
 <main>
 
 <section id="sum" class="on">
  <div class="banner" id="sampleBanner">ตอนนี้เป็นข้อมูลตัวอย่างสมมติ ไปที่แท็บ "ข้อมูล" แล้วกด "ล้างข้อมูล เริ่มของจริง" เพื่อใส่ข้อมูลของคุณ</div>
  <div class="warn" id="warn"></div>
- <div class="grid" style="margin-top:12px">
+ <div style="margin-top:12px">
+  <div class="bar c" id="barDebt"><span id="barDebtT">-</span> <small style="font-weight:500;opacity:.75">ยอดหนี้รวม</small></div>
+  <div class="bar y" id="barInt"><span id="barIntT">-</span> <small style="font-weight:500;opacity:.75">ดอกเบี้ยตามแผน</small></div>
+ </div>
+ <div class="hero">
   <div class="kpi big"><small>ปลอดหนี้ในอีก</small><b id="kMonths">-</b></div>
   <div class="kpi big"><small>คาดว่าปลอดหนี้ภายใน</small><b id="kDate">-</b></div>
-  <div class="kpi"><small>ยอดหนี้รวม (บาท)</small><b id="kTotal">-</b></div>
-  <div class="kpi"><small>ดอกเบี้ยรวมตามแผน (บาท)</small><b id="kInt">-</b></div>
-  <div class="kpi"><small>งบปลดหนี้ต่อเดือน (บาท)</small><b id="kBudget">-</b></div>
-  <div class="kpi"><small>ประหยัดดอกเบี้ยเทียบจ่ายขั้นต่ำอย่างเดียว (บาท)</small><b id="kSave" class="good">-</b></div>
  </div>
- <div class="card"><h2>ยอดหนี้คงเหลือรวมแต่ละเดือน</h2><div id="chart"></div></div>
+ <div class="card list"><h2>ภาพรวมรายเดือน</h2>
+  <div class="li"><span>ยอดหนี้รวม (บาท)</span><b id="kTotal">-</b></div>
+  <div class="li"><span>ดอกเบี้ยรวมตามแผน (บาท)</span><b id="kInt">-</b></div>
+  <div class="li"><span>งบปลดหนี้ต่อเดือน (บาท)</span><b id="kBudget">-</b></div>
+  <div class="li"><span>เงินเหลือหลังหักค่าใช้จ่ายและค่างวดขั้นต่ำ</span><b id="kLeft">-</b></div>
+  <div class="li"><span>ประหยัดดอกเบี้ยเทียบจ่ายขั้นต่ำอย่างเดียว</span><b id="kSave" class="good">-</b></div>
+ </div>
+ <div class="card"><h2>ยอดหนี้คงเหลือรายเดือน <b style="color:var(--mute);font-size:11px">แท่งเหลือง = เดือนนี้</b></h2><div id="chart"></div></div>
+ <div class="card"><h2>สัดส่วนหนี้แต่ละก้อน</h2><div id="donut"></div></div>
  <div class="card"><h2>ลำดับการโปะ (ดอกเบี้ยสูงสุดก่อน)</h2>
   <table><thead><tr><th>ชื่อหนี้</th><th>ยอดคงเหลือ</th><th>ดอกเบี้ย/ปี</th><th>หมดภายใน</th></tr></thead><tbody id="order"></tbody></table>
  </div>
- <div class="card"><h2>รายได้เสริมที่ทำได้จริง</h2>
-  <div class="grid"><div class="kpi"><small>เดือนนี้ (บาท)</small><b id="kInc">-</b></div><div class="kpi"><small>เทียบกับแผนที่ตั้งไว้ (บาท)</small><b id="kIncPlan">-</b></div></div>
-  <p class="note">เอารายได้เสริมที่ได้จริงไปเพิ่มช่อง "รายได้เสริม" ในแท็บงบรายเดือน เพื่อให้แผนปลดหนี้เร็วขึ้น</p>
+ <div class="card list"><h2>รายได้เสริมที่ทำได้จริง</h2>
+  <div class="li"><span>เดือนนี้ (บาท)</span><b id="kInc">-</b></div>
+  <div class="li"><span>เทียบกับแผนที่ตั้งไว้ (บาท)</span><b id="kIncPlan">-</b></div>
+  <p class="note">เอารายได้เสริมที่ได้จริงไปเพิ่มในแท็บ "งบ" ช่องรายได้เสริม เพื่อให้แผนปลดหนี้เร็วขึ้น</p>
  </div>
  <p class="note">ดอกเบี้ยคิดแบบลดต้นลดดอกรายเดือน (ยอดต้นเดือน x อัตรา/12) ผ่อนแบบ flat rate อาจต่างจากตัวเลขจริงเล็กน้อย แผนสมมติว่ารายรับรายจ่ายคงที่และไม่มีหนี้ใหม่ ใช้ประกอบการตัดสินใจ ไม่ใช่คำแนะนำทางการเงินเฉพาะบุคคล</p>
 </section>
@@ -98,22 +134,24 @@ svg{width:100%;height:auto;display:block}
 </section>
 
 <section id="bud">
- <div class="card"><h2>รายรับต่อเดือน (บาท)</h2>
+ <div class="card"><h2>ค่าใช้จ่ายต่อเดือน <b id="bExpHead">-</b></h2><div class="tiles" id="bRings"></div></div>
+ <div class="card"><h2>รายรับต่อเดือน <b id="bIncHead">-</b></h2><div class="tiles" id="bIncRings"></div></div>
+ <div class="card"><h2>รายรับ (บาท)</h2>
   <div class="fld"><span>เงินเดือน / รายได้หลัก</span><input type="number" inputmode="decimal" data-b="incomeMain"></div>
   <div class="fld"><span>รายได้เสริม</span><input type="number" inputmode="decimal" data-b="incomeSide"></div>
   <div class="fld"><span>รายได้อื่น ๆ</span><input type="number" inputmode="decimal" data-b="incomeOther"></div>
  </div>
- <div class="card"><h2>ค่าใช้จ่ายต่อเดือน (บาท)</h2>
+ <div class="card"><h2>ค่าใช้จ่าย (บาท)</h2>
   <div class="fld"><span>ค่าใช้จ่ายจำเป็น (ที่อยู่ อาหาร เดินทาง น้ำไฟ ครอบครัว)</span><input type="number" inputmode="decimal" data-b="essential"></div>
   <div class="fld"><span>ค่าใช้จ่ายที่ปรับลดได้ (สังสรรค์ ช้อปปิ้ง สมาชิกรายเดือน)</span><input type="number" inputmode="decimal" data-b="flexible"></div>
   <div class="fld"><span>เงินสำรองฉุกเฉินที่ออมต่อเดือน</span><input type="number" inputmode="decimal" data-b="emergency"></div>
  </div>
  <div class="card"><h2>แผนโปะหนี้</h2>
-  <div class="grid">
+  <div class="hero" style="margin-top:0">
    <div class="kpi"><small>ค่างวดขั้นต่ำรวม</small><b id="bMin">-</b></div>
    <div class="kpi"><small>เงินเหลือหลังหักทั้งหมด</small><b id="bSur">-</b></div>
   </div>
-  <div class="fld" style="margin-top:10px"><span>โปะเพิ่มต่อเดือน (เว้นว่าง = ใช้เงินเหลือทั้งหมด)</span><input type="number" inputmode="decimal" data-b="extra" placeholder="อัตโนมัติ"></div>
+  <div class="fld"><span>โปะเพิ่มต่อเดือน (เว้นว่าง = ใช้เงินเหลือทั้งหมด)</span><input type="number" inputmode="decimal" data-b="extra" placeholder="อัตโนมัติ"></div>
   <div class="fld"><span>เดือนเริ่มแผน</span><input type="month" data-b="start"></div>
   <p class="note">ลองใส่ตัวเลขในช่อง "โปะเพิ่ม" แล้วกลับไปดูแท็บสรุปว่าหมดเร็วขึ้นแค่ไหน</p>
  </div>
@@ -128,7 +166,8 @@ svg{width:100%;height:auto;display:block}
  <div class="card"><h2>บันทึกรายได้จริง</h2>
   <div id="logRows"></div>
   <button class="btn" id="addLog">+ บันทึกรายได้</button>
-  <h2 style="margin-top:16px">สรุปรายเดือน</h2>
+ </div>
+ <div class="card"><h2>สรุปรายเดือน</h2>
   <table><thead><tr><th>เดือน</th><th>รวม (บาท)</th></tr></thead><tbody id="logSum"></tbody></table>
  </div>
 </section>
@@ -151,7 +190,7 @@ svg{width:100%;height:auto;display:block}
   </div>
   <div class="actions">
    <button class="btn ghost" id="sample">โหลดข้อมูลตัวอย่าง</button>
-   <button class="btn ghost" id="clear" style="color:var(--bad);border-color:var(--bad)">ล้างข้อมูล เริ่มของจริง</button>
+   <button class="btn ghost" id="clear" style="color:var(--bad)">ล้างข้อมูล เริ่มของจริง</button>
   </div>
  </div>
 </section>
@@ -246,6 +285,18 @@ function calc(){
   return '<tr><td>'+(k+1)+'. '+esc(o.x.n||'ไม่มีชื่อ')+'</td><td>'+fmt(num(o.x.b))+'</td><td>'+num(o.x.r)+'%</td><td style="white-space:nowrap">'+when+'</td></tr>';
  }).join('')||'<tr><td colspan="4" class="note">ยังไม่มีหนี้ ไปเพิ่มที่แท็บ "หนี้"</td></tr>';
  drawChart(plan.totals);
+ drawDonut();
+ var cap=Math.max(total,1);
+ $('barDebt').style.width='100%';$('barDebtT').textContent=fmt(total);
+ var ip=total>0&&!plan.never?plan.interest/total:0;
+ $('barInt').style.width=Math.max(total>0?14:0,Math.min(100,ip*100))+'%';$('barIntT').textContent=total>0&&!plan.never?fmt(plan.interest):'-';
+ var inc0=Math.max(income,1);
+ $('bRings').innerHTML=ring(num(b.essential)/inc0,'#f4c430','🏠','จำเป็น',num(b.essential))+ring(num(b.flexible)/inc0,'#f08a2c','🛍','ปรับลดได้',num(b.flexible))+ring(num(b.emergency)/inc0,'#5ed98a','🛟','สำรองฉุกเฉิน',num(b.emergency))+ring(mins/inc0,'#4fc8ef','💳','ค่างวดขั้นต่ำ',mins)+ring(extra/inc0,'#7a5cf0','🚀','โปะเพิ่ม',extra);
+ $('bExpHead').textContent=fmt(spend+mins+extra)+' / '+fmt(income);
+ $('bIncRings').innerHTML=ring(num(b.incomeMain)/inc0,'#4fc8ef','💼','รายได้หลัก',num(b.incomeMain))+ring(num(b.incomeSide)/inc0,'#5ed98a','🧰','รายได้เสริม',num(b.incomeSide))+ring(num(b.incomeOther)/inc0,'#b7e04f','✨','อื่น ๆ',num(b.incomeOther));
+ $('bIncHead').textContent=fmt(income);
+ $('kLeft').textContent=fmt(surplus);
+ $('kLeft').style.color=surplus<0?'var(--bad)':'';
  // income
  var cur=ym(new Date());
  var got=S.log.filter(function(l){return (l.d||'').slice(0,7)===cur;}).reduce(function(s,l){return s+num(l.a);},0);
@@ -256,18 +307,41 @@ function calc(){
  save();
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var PAL=['#5ed98a','#b7e04f','#f4c430','#f08a2c','#4fc8ef','#3b7de8','#7a5cf0','#e05a9c'];
 function drawChart(t){
  var el=$('chart');
  if(!t.length||t[0]<=0){el.innerHTML='<p class="note">ยังไม่มีข้อมูล</p>';return;}
- var n=Math.min(t.length,121),W=640,H=240,L=54,R=10,T=10,B=26;
- var max=t[0],pts=[];
- var last=t.length-1;
- var span=Math.max(1,Math.min(last,120));
- for(var i=0;i<=span;i++){var x=L+(W-L-R)*i/span,y=T+(H-T-B)*(1-(t[i]||0)/max);pts.push(x.toFixed(1)+','+y.toFixed(1));}
- var g='';
- for(var k=0;k<=4;k++){var yy=T+(H-T-B)*k/4;g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+yy+'" y2="'+yy+'" stroke="var(--line)"/><text x="'+(L-6)+'" y="'+(yy+4)+'" font-size="11" text-anchor="end" fill="var(--mute)">'+fmt(max*(1-k/4))+'</text>';}
- for(var q=0;q<=4;q++){var mm=Math.round(span*q/4);var xx=L+(W-L-R)*mm/span;g+='<text x="'+xx+'" y="'+(H-8)+'" font-size="11" text-anchor="'+(q===4?'end':q===0?'start':'middle')+'" fill="var(--mute)">เดือน '+mm+'</text>';}
- el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟยอดหนี้คงเหลือ">'+g+'<polyline fill="none" stroke="var(--accent)" stroke-width="2.5" points="'+pts.join(' ')+'"/></svg>';
+ var last=t.length-1,N=36,step=Math.max(1,Math.ceil(last/N)),vals=[],idx=[];
+ for(var i=0;i<=last;i+=step){vals.push(t[i]);idx.push(i);}
+ if(idx[idx.length-1]!==last){vals.push(t[last]);idx.push(last);}
+ var W=640,H=230,L=8,R=8,T=22,B=26,max=t[0],n=vals.length,gap=3,bw=(W-L-R)/n-gap;
+ var g='<text x="'+L+'" y="14" font-size="12" fill="var(--mute)">'+fmt(max)+'</text>';
+ vals.forEach(function(v,k){
+  var h=Math.max(v>0?2:1,(H-T-B)*(v/max)),x=L+k*(bw+gap),y=H-B-h;
+  g+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2" fill="'+(k===0?'var(--yellow)':'var(--cyan)')+'" opacity="'+(v>0?1:.35)+'"/>';
+ });
+ [0,Math.round(n/2),n-1].forEach(function(k,q){
+  var x=L+k*(bw+gap)+bw/2;
+  g+='<text x="'+x.toFixed(1)+'" y="'+(H-8)+'" font-size="12" fill="var(--mute)" text-anchor="'+(q===0?'start':q===2?'end':'middle')+'">เดือน '+idx[k]+'</text>';
+ });
+ el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟยอดหนี้คงเหลือรายเดือน">'+g+'</svg>';
+}
+function ring(frac,color,icon,label,amt){
+ var c=2*Math.PI*30,f=Math.max(0,Math.min(1,isFinite(frac)?frac:0));
+ return '<div class="tile"><div class="ring"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="5"/><circle cx="36" cy="36" r="30" fill="none" stroke="'+color+'" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+(c*f).toFixed(1)+' '+c.toFixed(1)+'" transform="rotate(-90 36 36)"/></svg><span>'+icon+'</span></div><small>'+label+'</small><b style="color:'+color+'">'+fmt(amt)+'</b></div>';
+}
+function drawDonut(){
+ var items=S.debts.filter(function(x){return num(x.b)>0;}).map(function(x){return{n:x.n||'ไม่มีชื่อ',v:num(x.b)};}).sort(function(a,b){return b.v-a.v;});
+ var tot=items.reduce(function(s,x){return s+x.v;},0);
+ if(!tot){$('donut').innerHTML='<p class="note">ยังไม่มีหนี้</p>';return;}
+ var r=70,c=2*Math.PI*r,off=0,seg='',leg='';
+ items.forEach(function(x,i){
+  var len=c*x.v/tot,col=PAL[i%PAL.length];
+  seg+='<circle cx="100" cy="100" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="36" stroke-dasharray="'+Math.max(0,len-1.5).toFixed(2)+' '+c.toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'" transform="rotate(-90 100 100)"/>';
+  off+=len;
+  leg+='<div class="lg"><i style="background:'+col+'"></i><span>'+esc(x.n)+' <em>'+Math.round(100*x.v/tot)+'%</em></span><b>'+fmt(x.v)+'</b></div>';
+ });
+ $('donut').innerHTML='<div class="donutwrap"><svg viewBox="0 0 200 200" role="img" aria-label="สัดส่วนหนี้"><circle cx="100" cy="100" r="'+r+'" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="36"/>'+seg+'<text x="100" y="96" text-anchor="middle" font-size="19" font-weight="700" fill="var(--ink)">'+fmt(tot)+'</text><text x="100" y="116" text-anchor="middle" font-size="12" fill="var(--mute)">หนี้รวม</text></svg><div class="legend">'+leg+'</div></div>';
 }
 
 // ---------- tables ----------
@@ -342,9 +416,11 @@ $('addDebt').onclick=function(){S.debts.push({n:'',b:'',r:'',m:''});S.sample=fal
 $('addIdea').onclick=function(){S.ideas.push({n:'',inv:'',inc:'',h:'',s:'ไอเดีย'});S.sample=false;renderAll();};
 $('addLog').onclick=function(){S.log.push({n:'',d:new Date().toISOString().slice(0,10),a:''});S.sample=false;renderAll();};
 $('tabs').addEventListener('click',function(e){
- var t=e.target.dataset.t;if(!t)return;
- document.querySelectorAll('nav button').forEach(function(b){b.classList.toggle('on',b===e.target);});
- document.querySelectorAll('section').forEach(function(s){s.classList.toggle('on',s.id===t);});
+ var btn=e.target.closest('button[data-t]');if(!btn)return;
+ var t=btn.dataset.t;
+ document.querySelectorAll('#tabs button').forEach(function(b){b.classList.toggle('on',b===btn);});
+ document.querySelectorAll('section').forEach(function(x){x.classList.toggle('on',x.id===t);});
+ $('pageTitle').textContent=btn.dataset.title;
  window.scrollTo(0,0);
 });
 $('exp').onclick=function(){
