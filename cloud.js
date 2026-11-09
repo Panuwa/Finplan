@@ -1,18 +1,22 @@
-// ซิงค์ข้อมูลกับ Firebase (Auth: Google, Firestore: users/{uid})
-// ถ้ายังไม่ตั้งค่า firebase-config.js หรือโหลด Firebase ไม่ได้ แอปจะทำงานแบบเก็บในเครื่องตามเดิม
+// ซิงค์ข้อมูลกับ Firebase (Auth: Google, Firestore: users/{uid}) และล็อกหน้าแอปจนกว่าจะเข้าสู่ระบบ
+// ถ้ายังไม่ตั้งค่า firebase-config.js แอปจะทำงานแบบเก็บในเครื่องโดยไม่มีหน้าล็อกอิน
 import { firebaseConfig } from './firebase-config.js';
 
 const $ = (id) => document.getElementById(id);
 const msg = $('cloudMsg'), who = $('cloudUser'), stat = $('cloudStatus');
 const bin = $('btnSignIn'), bout = $('btnSignOut');
+const gateIn = $('gateSignIn'), gateRetry = $('gateRetry'), gateMsg = $('gateMsg');
 const SDK = 'https://www.gstatic.com/firebasejs/10.14.1/';
 
 function setMsg(t) { msg.textContent = t; }
 function setStat(t) { stat.textContent = t; }
+function lock(on) { document.body.classList.toggle('locked', on); }
+gateRetry.onclick = () => location.reload();
 
 (async function () {
   if (!firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith('YOUR_')) {
     setMsg('ยังไม่ได้ตั้งค่า Firebase ตอนนี้ข้อมูลเก็บในเครื่องนี้เท่านั้น (ดูวิธีตั้งค่าใน README.md)');
+    lock(false);
     return;
   }
   let fb;
@@ -24,8 +28,9 @@ function setStat(t) { stat.textContent = t; }
     ]);
     fb = { app, auth, fs };
   } catch (e) {
-    setMsg('โหลด Firebase ไม่สำเร็จ (ตรวจสอบอินเทอร์เน็ต) ตอนนี้ข้อมูลเก็บในเครื่องนี้เท่านั้น');
-    return;
+    gateMsg.textContent = 'เชื่อมต่อ Firebase ไม่ได้ ตรวจสอบอินเทอร์เน็ตแล้วกด "ลองใหม่"';
+    gateRetry.hidden = false;
+    return; // คงหน้าล็อกไว้
   }
 
   const app = fb.app.initializeApp(firebaseConfig);
@@ -79,16 +84,20 @@ function setStat(t) { stat.textContent = t; }
     }
   }
 
-  bin.onclick = async () => {
+  async function signIn() {
+    gateMsg.textContent = '';
     try { await fb.auth.signInWithPopup(auth, new fb.auth.GoogleAuthProvider()); }
     catch (e) {
       if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') {
         await fb.auth.signInWithRedirect(auth, new fb.auth.GoogleAuthProvider());
       } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+        gateMsg.textContent = 'เข้าสู่ระบบไม่สำเร็จ: ' + (e.code || e.message);
         setStat('เข้าสู่ระบบไม่สำเร็จ: ' + (e.code || e.message));
       }
     }
-  };
+  }
+  bin.onclick = signIn;
+  gateIn.onclick = signIn;
   bout.onclick = () => fb.auth.signOut(auth);
 
   fb.auth.onAuthStateChanged(auth, async (u) => {
@@ -96,13 +105,20 @@ function setStat(t) { stat.textContent = t; }
     bin.hidden = !!u;
     bout.hidden = !u;
     if (u) {
+      lock(false);
       setMsg('ข้อมูลจะซิงค์กับบัญชีนี้อัตโนมัติทุกครั้งที่แก้ไข');
       who.textContent = u.displayName ? u.displayName + ' (' + u.email + ')' : u.email;
       await pull();
     } else {
+      // ออกจากระบบ: ล็อกหน้าและลบข้อมูลที่ค้างในเครื่องนี้ (ข้อมูลบนคลาวด์ยังอยู่)
+      clearTimeout(timer);
+      window.App.wipe();
       who.textContent = '';
       setStat('');
-      setMsg('ยังไม่ได้เข้าสู่ระบบ ข้อมูลเก็บในเครื่องนี้เท่านั้น เข้าสู่ระบบเพื่อซิงค์ข้ามอุปกรณ์');
+      setMsg('ยังไม่ได้เข้าสู่ระบบ');
+      lock(true);
+      gateMsg.textContent = '';
+      gateIn.hidden = false;
     }
   });
 })();

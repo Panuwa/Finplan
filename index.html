@@ -81,9 +81,27 @@ svg{max-width:100%}
  main{max-width:1000px;margin-left:calc(88px + max(0px,(100vw - 88px - 1000px)/2))}
  .hero{grid-template-columns:repeat(4,1fr)}
 }
+
+#gate{display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;padding:24px;text-align:center;background:#101a22 linear-gradient(180deg,#33505e 0,#223743 40%,#101a22 100%)}
+body.locked #gate{display:flex}
+body.locked>header,body.locked>nav,body.locked>main{display:none}
+.gatebox{max-width:340px;width:100%}
+.gatebox .logo{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;background:rgba(255,255,255,.08);border:2px solid var(--cyan)}
+.gatebox h1{margin:0 0 6px;font-size:22px}
+.gatebox p{margin:0 0 18px;color:var(--mute);font-size:14px}
+.gatebox button{width:100%}
+#gateMsg{margin-top:14px;font-size:13px;color:var(--mute);min-height:20px}
 </style>
 </head>
-<body>
+<body class="locked">
+<div id="gate"><div class="gatebox">
+ <div class="logo">💳</div>
+ <h1>แผนปลดหนี้และสร้างรายได้</h1>
+ <p>เข้าสู่ระบบเพื่อดูข้อมูลของคุณ</p>
+ <button class="btn" id="gateSignIn" hidden>เข้าสู่ระบบด้วย Google</button>
+ <button class="btn ghost" id="gateRetry" hidden>ลองใหม่</button>
+ <div id="gateMsg">กำลังตรวจสอบการเข้าสู่ระบบ...</div>
+</div></div>
 <header><h1 id="pageTitle">สรุป</h1></header>
 <nav id="tabs">
  <button data-t="sum" data-title="สรุป" class="on"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>สรุป</button>
@@ -436,7 +454,7 @@ $('imp').onchange=function(e){
 };
 $('sample').onclick=function(){if(confirm('แทนที่ข้อมูลปัจจุบันด้วยข้อมูลตัวอย่าง?')){S=sample();renderAll();}};
 $('clear').onclick=function(){if(confirm('ลบข้อมูลทั้งหมดและเริ่มใหม่? (ควรสำรองข้อมูลก่อน)')){S=empty();renderAll();}};
-window.App={get:function(){return S;},set:function(o){S=o;S.ideas=S.ideas||[];S.log=S.log||[];S.sample=false;renderAll();},onSaved:null};
+window.App={wipe:function(){S=empty();try{localStorage.removeItem(KEY);}catch(e){}renderAll();},get:function(){return S;},set:function(o){S=o;S.ideas=S.ideas||[];S.log=S.log||[];S.sample=false;renderAll();},onSaved:null};
 renderAll();
 })();
 </script>
